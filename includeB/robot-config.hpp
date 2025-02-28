@@ -19,6 +19,7 @@ extern pros::adi::DigitalOut solenoidClamp;
 extern pros::adi::DigitalIn autonSwitch;
 extern pros::adi::DigitalOut doinker;
 extern pros::adi::DigitalOut intakeUp;
+extern::pros::Optical opticalSensor;
 
 //PROS odom
 extern pros::Imu imu;
@@ -54,7 +55,8 @@ extern std::string autonStateStr;
 extern bool doinkerState;
 extern bool intakeZState;
 
-
+//MSC Functions
+extern void opticalTask(void);
 
 
 #endif

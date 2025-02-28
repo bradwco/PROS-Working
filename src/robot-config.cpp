@@ -12,6 +12,7 @@ pros::adi::DigitalOut solenoidClamp('A', LOW);
 pros::adi::DigitalIn autonSwitch('D');
 pros::adi::DigitalOut doinker('C', LOW);
 pros::adi::DigitalOut intakeUp('E', LOW);
+pros::Optical opticalSensor(8);
 
 pros::Imu imu(1);
 pros::Rotation vertical_encoderL(-20);
@@ -78,3 +79,15 @@ bool invertDriveState = false;
 std::string autonStateStr = "DEFAULT";
 bool doinkerState = false;
 bool intakeZState = false;
+
+void opticalTask(void) {
+    while (true) {
+        if (opticalSensor.get_hue() <= 25) {  // Detect red object (donut)
+            pros::delay(40); 
+            chainMotor.move(-127); 
+            pros::delay(100);  
+            chainMotor.move(127);  
+        }
+        pros::delay(10);  // Prevent CPU overload
+    }
+}
