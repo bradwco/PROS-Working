@@ -56,7 +56,7 @@ extern bool doinkerState;
 extern bool intakeZState;
 
 //MSC Functions
-extern void opticalTask(void);
+extern void redOpticalTask(void);
 
 
 #endif

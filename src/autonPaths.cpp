@@ -7,7 +7,7 @@
 
 void blueNegative() {
     pros::lcd::print(3, "%s", "BLUE POS");
-    pros::Task opticalSensorTask(opticalTask);
+    pros::Task opticalSensorTask(redOpticalTask);
     chainMotor.tare_position();
     chassis.setPose(tileSize*2-xOffset-2,tileSize-yOffset+1.55, 270);
     chassis.moveToPose(tileSize*3, tileSize, 270, 3000, {.forwards=false, .minSpeed=1, .earlyExitRange=1});
@@ -72,7 +72,6 @@ void blueNegative() {
 
 void redNegative(){
     pros::lcd::print(3, "%s", "RED NEG");
-    pros::Task opticalSensorTask(opticalTask);
     solenoidClamp.set_value(true);
     chainMotor.move(127);
     intakeMotor.move(127);
