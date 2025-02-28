@@ -6,8 +6,16 @@
 #include "../includeB/autonPaths.hpp"
 
 void blueNegative() {
+    pros::lcd::print(3, "%s", "BLUE NEG");
+    
+}
+
+void redNegative(){
+    pros::lcd::print(3, "%s", "RED NEG");
+}
+
+void bluePositive(){
     pros::lcd::print(3, "%s", "BLUE POS");
-    pros::Task opticalSensorTask(redOpticalTask);
     chainMotor.tare_position();
     chassis.setPose(tileSize*2-xOffset-2,tileSize-yOffset+1.55, 270);
     chassis.moveToPose(tileSize*3, tileSize, 270, 3000, {.forwards=false, .minSpeed=1, .earlyExitRange=1});
@@ -68,21 +76,6 @@ void blueNegative() {
 
     chassis.moveToPose(tileSize-xOffset, tileSize*3-yOffset-4, 0, 3000);
     chassis.waitUntilDone();
-}
-
-void redNegative(){
-    pros::lcd::print(3, "%s", "RED NEG");
-    solenoidClamp.set_value(true);
-    chainMotor.move(127);
-    intakeMotor.move(127);
-
-    chassis.setPose(0,0, 0);
-    chassis.moveToPose(0, tileSize*5, 0, 300000, {.maxSpeed=45});
-    
-}
-
-void bluePositive(){
-
 }
 
 void redPositive(){

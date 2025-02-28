@@ -79,14 +79,24 @@ bool invertDriveState = false;
 std::string autonStateStr = "DEFAULT";
 bool doinkerState = false;
 bool intakeZState = false;
+bool colorSort = false; //TRUE IS SORT BLUE, FALSE IS SORT RED
 
-void redOpticalTask(void) {
+void opticalTask(void) {
     while (true) {
-        if (opticalSensor.get_hue() <= 25) {  // Detect red object (donut)
-            pros::delay(40); 
-            chainMotor.move(-127); 
-            pros::delay(110);  
-            chainMotor.move(127);  
+        if(colorSort){
+            if (opticalSensor.get_hue() >= 200) {  // Detect blue object (donut)
+                pros::delay(40); 
+                chainMotor.move(-127); 
+                pros::delay(110);  
+                chainMotor.move(127);  
+            }
+        }else{
+            if (opticalSensor.get_hue() <= 25) {  // Detect red object (donut)
+                pros::delay(40); 
+                chainMotor.move(-127); 
+                pros::delay(110);  
+                chainMotor.move(127);  
+            }
         }
         pros::delay(10);  // Prevent CPU overload
     }

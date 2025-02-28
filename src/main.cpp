@@ -20,6 +20,7 @@
 
 		chainMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 		opticalSensor.set_led_pwm(100);
+
 		chassis.calibrate(); // MUST BE LAST
 		pros::delay(200);
 	}
@@ -50,12 +51,20 @@
 		
 	void autonomous() {
 		if(autonState == AutonState::BLUE_NEG){
+			colorSort = false;
+			pros::Task opticalSensorTask(opticalTask);
 			blueNegative();
 		}else if(autonState==AutonState::RED_NEG){
+			colorSort = false;
+			pros::Task opticalSensorTask(opticalTask);
 			redNegative();
 		}else if(autonState==AutonState::BLUE_POS){
+			colorSort = false;
+			pros::Task opticalSensorTask(opticalTask);
 			bluePositive();
 		}else if(autonState==AutonState::RED_POS){
+			colorSort = true;
+			pros::Task opticalSensorTask(opticalTask);
 			redPositive();
 		}
 		else{}

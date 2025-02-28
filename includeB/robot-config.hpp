@@ -54,9 +54,10 @@ extern bool invertDriveState;
 extern std::string autonStateStr;
 extern bool doinkerState;
 extern bool intakeZState;
+extern bool colorSort;
 
 //MSC Functions
-extern void redOpticalTask(void);
+extern void opticalTask(void);
 
 
 #endif
