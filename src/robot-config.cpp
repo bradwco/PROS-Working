@@ -10,14 +10,15 @@ pros::Motor intakeMotor(-10, pros::MotorGearset::blue);
 pros::Motor chainMotor(-9, pros::MotorGearset::blue);
 pros::adi::DigitalOut solenoidClamp('A', LOW);
 pros::adi::DigitalIn autonSwitch('D');
-pros::adi::DigitalOut doinker('C', LOW);
-pros::adi::DigitalOut intakeUp('E', LOW);
+pros::adi::DigitalOut doinker('E', LOW);
+pros::adi::DigitalOut intakeUp('C', LOW);
 pros::Optical opticalSensor(8);
+pros::Distance distanceSensor(2);
 
-pros::Imu imu(1);
+pros::Imu imu(5);
 pros::Rotation vertical_encoderL(-20);
-pros::Rotation vertical_encoderR(19);
-pros::Rotation horizontal_encoder(-4);
+pros::Rotation vertical_encoderR(7);
+pros::Rotation horizontal_encoder(-6);
 
 lemlib::Drivetrain drivetrain(&left_motor_group,
     &right_motor_group, 
@@ -70,9 +71,9 @@ lemlib::Chassis chassis(drivetrain,
 const double xOffset = 7.25;
 const double yOffset = 7.5;
 const double tileSize = 24;
-const double intakeVoltage = 217;
-const double chainVoltageFWD = 163;
-const double chainVoltageREV = -217;
+const double intakeVoltage = 127;
+const double chainVoltageFWD = 127;
+const double chainVoltageREV = -127;
 const double overHeatTemp = 140; //Farhenheit
 bool overheatWarningActive = false; //used to disable the updateScreen
 bool invertDriveState = false;
@@ -82,22 +83,37 @@ bool intakeZState = false;
 bool colorSort = false; //TRUE IS SORT BLUE, FALSE IS SORT RED
 
 void opticalTask(void) {
+    bool detectedBlue = false;
+    bool detectedRed = false;
+    opticalSensor.set_led_pwm(100);
     while (true) {
-        if(colorSort){
-            if (opticalSensor.get_hue() >= 200) {  // Detect blue object (donut)
-                pros::delay(40); 
-                chainMotor.move(-127); 
-                pros::delay(110);  
-                chainMotor.move(127);  
+
+        if (opticalSensor.get_hue() >= 70) {
+            detectedBlue = true;  // Blue object detected
+        } 
+        if (opticalSensor.get_hue() <= 30) {
+            detectedRed = true;   // Red object detected
+        }
+        pros::lcd::print(1, "detectedRed: %ss", detectedRed ? "TRUE" : "FALSE");
+
+        if (colorSort) {
+            if (detectedBlue) {  // Blue object detected and in range
+                pros::delay(110);
+                chainMotor.move(chainVoltageREV);
+                pros::delay(200);
+                chainMotor.move(chainVoltageFWD);
+                detectedBlue = false;  // Reset flag after action
             }
-        }else{
-            if (opticalSensor.get_hue() <= 25) {  // Detect red object (donut)
-                pros::delay(40); 
-                chainMotor.move(-127); 
-                pros::delay(110);  
-                chainMotor.move(127);  
+        } else {
+            if (detectedRed) {  // Red object detected and in range
+                pros::delay(110);
+                chainMotor.move(chainVoltageREV);
+                pros::delay(200);
+                chainMotor.move(chainVoltageFWD);
+                detectedRed = false;  // Reset flag after action
             }
         }
-        pros::delay(10);  // Prevent CPU overload
+        pros::delay(20);  // Prevent CPU overload
     }
 }
+

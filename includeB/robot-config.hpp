@@ -2,6 +2,7 @@
 #define ROBOT_CONFIG_HPP
 #include "lemlib/api.hpp" // IWYU pragma: keep
 #include "main.h" // IWYU pragma: keep
+#include "pros/distance.hpp"
 
 //PP Files
 // Path Generation Link: https://path.jerryio.com/
@@ -20,6 +21,7 @@ extern pros::adi::DigitalIn autonSwitch;
 extern pros::adi::DigitalOut doinker;
 extern pros::adi::DigitalOut intakeUp;
 extern::pros::Optical opticalSensor;
+extern::pros::Distance distanceSensor;
 
 //PROS odom
 extern pros::Imu imu;

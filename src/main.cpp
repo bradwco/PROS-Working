@@ -32,10 +32,13 @@
 		 * the VEX Competition Switch, following either autonomous or opcontrol. When
 		 * the robot is enabled, this task will exit.
 		 */
+		pros::c::adi_digital_write('A', 0);
+		pros::c::adi_digital_write('D', 0);
+		pros::c::adi_digital_write('E', 0);
+		
 		}
 		
 	void competition_initialize() {
-		
 		while (pros::competition::is_disabled()) {
 			if(autonSwitch.get_new_press()){
 				controller.clear();
@@ -55,16 +58,15 @@
 			pros::Task opticalSensorTask(opticalTask);
 			blueNegative();
 		}else if(autonState==AutonState::RED_NEG){
-			colorSort = false;
 			pros::Task opticalSensorTask(opticalTask);
+			colorSort = true;
 			redNegative();
 		}else if(autonState==AutonState::BLUE_POS){
 			colorSort = false;
-			pros::Task opticalSensorTask(opticalTask);
 			bluePositive();
 		}else if(autonState==AutonState::RED_POS){
-			colorSort = true;
-			pros::Task opticalSensorTask(opticalTask);
+			// colorSort = true;
+			// pros::Task opticalSensorTask(opticalTask);
 			redPositive();
 		}
 		else{}
@@ -105,7 +107,9 @@
 			}
 			if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 				intakeState = (intakeState == IntakeState::REVERSE) ? IntakeState::STOPPED : IntakeState::REVERSE; //switch between reverse & stop
+				intakeZState = !intakeZState;
 			}
+			intakeUp.set_value(intakeZState);
 			updateIntake();
 
 			//CLAMP
@@ -116,12 +120,6 @@
 				doinkerState = !doinkerState;
 			}
 			doinker.set_value(doinkerState);
-
-			//Intake Z Axis 
-			if(controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-				intakeZState = !intakeZState;
-			} 
-			intakeUp.set_value(intakeZState);
 
 			//SCORING
 			//Nested ternary operators (IDK IF WORKING)
