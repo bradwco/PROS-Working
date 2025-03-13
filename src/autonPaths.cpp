@@ -4,6 +4,7 @@
 #include "../includeB/robot-config.hpp"
 #include "pros/motors.h"
 #include "../includeB/autonPaths.hpp"
+#include <cmath>
 
 void blueNegative() {
     pros::lcd::print(3, "%s", "BLUE NEG");
@@ -227,6 +228,58 @@ void redPositive(){
 void skills(){
     pros::lcd::print(3, "%s", "SKILLS");
 
-    chassis.setPose(0,0, 0);
+    chassis.setPose(tileSize*2-xOffset,tileSize-yOffset, 180);
+
+    //Clamp Stake
+    chassis.moveToPose(tileSize-2, tileSize*2, 140, 2000,  {.forwards=false, .maxSpeed=40, .minSpeed=2, .earlyExitRange=1});
+    chassis.waitUntilDone();
+    solenoidClamp.set_value(true);
+    pros::delay(500);
+
+    //First donut
+    intakeMotor.move(127);
     chainMotor.move(chainVoltageFWD);
+    chassis.turnToHeading(90,2000);
+    chassis.waitUntilDone();
+    chassis.moveToPose(tileSize*2, tileSize*2, 90, 2500);
+    chassis.waitUntilDone();
+
+    //Second donut
+    chassis.turnToHeading(225,2000);
+    chassis.waitUntilDone();
+    chassis.moveToPose(tileSize, tileSize, 225, 2000);
+    chassis.waitUntilDone();
+
+    //Third donut and out
+    chassis.moveToPose(0, 0, 225, 3000, {.maxSpeed=50});
+    chassis.waitUntilDone();
+    chassis.moveToPose(tileSize, tileSize, 225, 3000, {.forwards=false, .maxSpeed=50});
+    chassis.waitUntilDone();
+
+    //Corner
+    chassis.turnToHeading(45,2000);
+    chassis.waitUntilDone();
+    chassis.moveToPose(0, 0, 45, 1500, {.forwards=false, .maxSpeed=40});
+    chassis.waitUntilDone();
+    solenoidClamp.set_value(false);
+
+    //Middle Donuts
+    chainMotor.move(0);
+    chassis.moveToPose(tileSize, tileSize*3, 0, 3000);
+    chassis.waitUntilDone();
+
+    //Stake
+    chassis.moveToPose(tileSize*2, tileSize*4, 230, 3000, {.forwards=false, .minSpeed=2, .earlyExitRange=1});
+    chassis.waitUntilDone();
+    solenoidClamp.set_value(true);
+    pros::delay(500);
+    chainMotor.move(chainVoltageFWD);
+
+    //2.1 Donut
+    chassis.moveToPose(tileSize/2+2, tileSize*4, 270, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPose(tileSize/2+2, tileSize*5, 0, 3000);
+    chassis.waitUntilDone();
+
+
 }

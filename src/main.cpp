@@ -19,7 +19,7 @@
 		pros::lcd::initialize();
 
 		chainMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
-		opticalSensor.set_led_pwm(100);
+		opticalSensor.set_led_pwm(75);
 
 		chassis.calibrate(); // MUST BE LAST
 		pros::delay(200);

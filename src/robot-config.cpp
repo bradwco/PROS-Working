@@ -88,7 +88,7 @@ void opticalTask(void) {
     opticalSensor.set_led_pwm(100);
     while (true) {
 
-        if (opticalSensor.get_hue() >= 70) {
+        if (opticalSensor.get_hue() >= 150) {
             detectedBlue = true;  // Blue object detected
         } 
         if (opticalSensor.get_hue() <= 30) {
