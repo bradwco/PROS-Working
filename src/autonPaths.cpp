@@ -224,3 +224,9 @@ void redPositive(){
     
 }
 //Add skills
+void skills(){
+    pros::lcd::print(3, "%s", "SKILLS");
+
+    chassis.setPose(0,0, 0);
+    chainMotor.move(chainVoltageFWD);
+}

@@ -69,7 +69,11 @@
 			// pros::Task opticalSensorTask(opticalTask);
 			redPositive();
 		}
-		else{}
+		else{
+			colorSort=true;
+			pros::Task opticalSensor(opticalTask);
+			skills();
+		}
 
 		pros::delay(100);
 	}

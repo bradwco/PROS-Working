@@ -6,7 +6,7 @@ enum class IntakeState {FORWARD, REVERSE, STOPPED};
 extern IntakeState intakeState;
 enum class ScreenState {DRIVE_TEMPS, MECHS_TEMPS, DRIVE_CONNECTS, MECHS_CONNECTS, NUM_STATES}; //NUM_STATES auto detects states to be dynamic
 extern ScreenState screenState;
-enum class AutonState {BLUE_NEG, RED_NEG, BLUE_POS, RED_POS, NUM_STATES};
+enum class AutonState {BLUE_NEG, RED_NEG, BLUE_POS, RED_POS, SKILLS, NUM_STATES};
 extern AutonState autonState;
 extern const char* autonStateNames[];
 

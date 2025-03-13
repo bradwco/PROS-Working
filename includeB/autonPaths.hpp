@@ -5,5 +5,6 @@ void blueNegative();
 void redNegative();
 void bluePositive();
 void redPositive();
+void skills();
 
 #endif

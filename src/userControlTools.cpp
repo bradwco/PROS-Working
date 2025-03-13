@@ -5,8 +5,8 @@
 //Global States
 IntakeState intakeState = IntakeState::STOPPED; //stop it by default
 ScreenState screenState = ScreenState::DRIVE_TEMPS;
-AutonState autonState = AutonState::BLUE_NEG; //blue negative by default
-const char* autonStateNames[] = {"BLUE NEG", "RED NEG", "BLUE POS", "RED POS"};
+AutonState autonState = AutonState::SKILLS; //blue negative by default
+const char* autonStateNames[] = {"BLUE NEG", "RED NEG", "BLUE POS", "RED POS", "SKILLS"};
 
 //Mechanism Functions
 void updateIntake(){
