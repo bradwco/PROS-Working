@@ -77,43 +77,7 @@ const double chainVoltageREV = -127;
 const double overHeatTemp = 140; //Farhenheit
 bool overheatWarningActive = false; //used to disable the updateScreen
 bool invertDriveState = false;
-std::string autonStateStr = "DEFAULT";
 bool doinkerState = false;
 bool intakeZState = false;
-bool colorSort = false; //TRUE IS SORT BLUE, FALSE IS SORT RED
 
-void opticalTask(void) {
-    bool detectedBlue = false;
-    bool detectedRed = false;
-    opticalSensor.set_led_pwm(100);
-    while (true) {
-
-        if (opticalSensor.get_hue() >= 150) {
-            detectedBlue = true;  // Blue object detected
-        } 
-        if (opticalSensor.get_hue() <= 30) {
-            detectedRed = true;   // Red object detected
-        }
-        pros::lcd::print(1, "detectedRed: %ss", detectedRed ? "TRUE" : "FALSE");
-
-        if (colorSort) {
-            if (detectedBlue) {  // Blue object detected and in range
-                pros::delay(110);
-                chainMotor.move(chainVoltageREV);
-                pros::delay(200);
-                chainMotor.move(chainVoltageFWD);
-                detectedBlue = false;  // Reset flag after action
-            }
-        } else {
-            if (detectedRed) {  // Red object detected and in range
-                pros::delay(110);
-                chainMotor.move(chainVoltageREV);
-                pros::delay(200);
-                chainMotor.move(chainVoltageFWD);
-                detectedRed = false;  // Reset flag after action
-            }
-        }
-        pros::delay(20);  // Prevent CPU overload
-    }
-}
 

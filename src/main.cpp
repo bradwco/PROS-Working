@@ -2,6 +2,7 @@
 #include "../includeB/robot-config.hpp"
 #include "../includeB/userControlTools.hpp"
 #include "../includeB/autonPaths.hpp"
+#include "../includeB/autonTools.hpp"
 
 	void on_center_button() {
 		static bool pressed = false;
@@ -20,11 +21,10 @@
 
 		chainMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
 		opticalSensor.set_led_pwm(75);
-
+		
 		chassis.calibrate(); // MUST BE LAST
 		pros::delay(200);
 	}
-	
 
 	void disabled() {
 		/**
@@ -53,24 +53,28 @@
 	}
 		
 	void autonomous() {
+		blueTargetHue = 150;
+		redTargetHue = 30;
+
 		if(autonState == AutonState::BLUE_NEG){
-			colorSort = false;
+			colorSort = ColorSort::RED;
 			pros::Task opticalSensorTask(opticalTask);
 			blueNegative();
 		}else if(autonState==AutonState::RED_NEG){
+			colorSort = ColorSort::BLUE;
 			pros::Task opticalSensorTask(opticalTask);
-			colorSort = true;
 			redNegative();
 		}else if(autonState==AutonState::BLUE_POS){
-			colorSort = false;
+			colorSort = ColorSort::RED;
+			pros::Task opticalSensorTask(opticalTask);
 			bluePositive();
 		}else if(autonState==AutonState::RED_POS){
-			// colorSort = true;
-			// pros::Task opticalSensorTask(opticalTask);
+			colorSort = ColorSort::BLUE;
+			pros::Task opticalSensorTask(opticalTask);
 			redPositive();
 		}
 		else{
-			colorSort=true;
+			colorSort = ColorSort::BLUE;
 			pros::Task opticalSensor(opticalTask);
 			skills();
 		}

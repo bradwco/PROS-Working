@@ -53,13 +53,9 @@ extern const double chainVoltageREV;
 extern const double overHeatTemp;
 extern bool overheatWarningActive;
 extern bool invertDriveState;
-extern std::string autonStateStr;
 extern bool doinkerState;
 extern bool intakeZState;
-extern bool colorSort;
 
-//MSC Functions
-extern void opticalTask(void);
 
 
 #endif

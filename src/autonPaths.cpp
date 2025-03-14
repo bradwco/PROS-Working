@@ -1,9 +1,7 @@
 #include "lemlib/chassis/chassis.hpp"
-#include "main.h"
-#include "liblvgl/llemu.hpp"
 #include "../includeB/robot-config.hpp"
-#include "pros/motors.h"
 #include "../includeB/autonPaths.hpp"
+#include "../includeB/autonTools.hpp"
 #include <cmath>
 
 void blueNegative() {
@@ -224,7 +222,7 @@ void redPositive(){
 
     
 }
-//Add skills
+
 void skills(){
     pros::lcd::print(3, "%s", "SKILLS");
 
