@@ -243,6 +243,7 @@ void skills(){
     chassis.waitUntilDone();
     chassis.moveToPose(tileSize*2, tileSize*2, 90, 2500);
     chassis.waitUntilDone();
+    pros::delay(250);
 
     //Second donut
     chassis.turnToHeading(225,2000);
@@ -265,21 +266,67 @@ void skills(){
 
     //Middle Donuts
     chainMotor.move(0);
-    chassis.moveToPose(tileSize, tileSize*3, 0, 3000);
+    chassis.moveToPose(tileSize-2, tileSize*3, 0, 3000);
     chassis.waitUntilDone();
 
     //Stake
-    chassis.moveToPose(tileSize*2, tileSize*4, 230, 3000, {.forwards=false, .minSpeed=2, .earlyExitRange=1});
+    chassis.turnToHeading(225, 1500);
+    chassis.moveToPose(tileSize*2+5, tileSize*4+5, 225, 4500, {.forwards=false, .maxSpeed=70, .minSpeed=2, .earlyExitRange=1});
     chassis.waitUntilDone();
     solenoidClamp.set_value(true);
     pros::delay(500);
     chainMotor.move(chainVoltageFWD);
 
     //2.1 Donut
-    chassis.moveToPose(tileSize/2+2, tileSize*4, 270, 3000);
+    chassis.moveToPose(tileSize/2, tileSize*4, 270, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPose(tileSize/2+2, tileSize*5, 0, 3000);
+
+    //2.2 Donut
+    chassis.moveToPose(tileSize/2, tileSize*5+5, 0, 3000);
     chassis.waitUntilDone();
+    chassis.moveToPose(tileSize/2, tileSize*5, 0, 3000, {.forwards=false});
+    chassis.waitUntilDone();
+
+    //Corner + Blue Donut Reject
+    chassis.turnToHeading(315, 1500);
+    chassis.waitUntilDone();
+    intakeUp.set_value(true);
+    chassis.moveToPose(-10, tileSize*6, 315, 3000, {.maxSpeed=50});
+    chassis.waitUntilDone();
+    
+    intakeUp.set_value(false);
+    left_motor_group.move(-50);
+    right_motor_group.move(-50);
+    pros::delay(500);
+    left_motor_group.move(0);
+    right_motor_group.move(0);
+    intakeMotor.move(-127);
+    pros::delay(500);
+    intakeMotor.move(127);
+    pros::delay(500);
+
+    //Red Corner Donut
+    chassis.moveToPose(-10, tileSize*6, 315, 3000, {.maxSpeed=50});
+    chassis.waitUntilDone();
+    left_motor_group.move(-50);
+    right_motor_group.move(-50);
+    pros::delay(500);
+    left_motor_group.move(0);
+    right_motor_group.move(0);
+    chassis.turnToHeading(135, 1500);
+    chassis.moveToPose(-10, tileSize*6, 135, 3000, {.forwards=false, .maxSpeed=50});
+    chassis.waitUntilDone();
+
+    //Leave
+    solenoidClamp.set_value(false);
+    left_motor_group.move(50);
+    right_motor_group.move(50);
+    pros::delay(500);
+    left_motor_group.move(0);
+    right_motor_group.move(0);
+    intakeMotor.move(0);
+    chainMotor.move(0);
+
 
 
 }
